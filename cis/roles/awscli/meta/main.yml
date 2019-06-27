@@ -1,6 +1,7 @@
 ---
 dependencies:
-- role: geerlingguy.repo-epel
-  when: ansible_os_family == 'RedHat'
-- geerlingguy.pip
-
+  - role: geerlingguy.repo-epel
+    when:
+      - ansible_os_family == 'RedHat'
+      - ansible_distribution != 'Amazon'
+  - geerlingguy.pip
