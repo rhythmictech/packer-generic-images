@@ -43,46 +43,13 @@
     {
       "type": "shell",
       "inline": [
-        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
         "sudo apt-get update",
-        "sudo apt-get install python -y"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "mkdir -p /home/ubuntu/distil-packer"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "../",
-      "destination": "/home/ubuntu/distil-packer"
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "sudo chmod -R u+rw,g+rw /home/ubuntu/distil-packer",
-        "sudo find /home/ubuntu/distil-packer/ -type d -exec chmod u+x,g+xs {} \\;",
-        "sudo ln -s /home/ubuntu/distil-packer /etc/skel/distil-packer"
+        "sudo apt-get install -y python python3"
       ]
     },
     {
       "type": "ansible",
       "playbook_file": "./provision.yml"
-    },
-    {
-      "type": "shell",
-      "inline_shebang": "/bin/bash -e",
-      "inline": [
-        "until grep -q sft-admin /etc/group; do echo 'Waiting for sftd...'; sleep 0.5; done",
-        "sudo chown -R ubuntu:sft-admin /home/ubuntu/distil-packer"
-      ]
     }
   ]
 }
