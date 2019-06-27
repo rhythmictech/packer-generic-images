@@ -43,11 +43,11 @@
     {
       "name": "bionic-cis-amazon-ebs",
       "type": "amazon-ebs",
-      "region": "us-east-1",
-      "instance_type": "t3.medium",
+      "region": "{{user `region`}}",
+      "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "packer_ubuntu_bionic_cis_{{timestamp}}",
-      "associate_public_ip_address": true,
+      "ami_name": "{{user `ami_name`}}",
+      "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
         "Name": "Packer Builder",
@@ -88,7 +88,7 @@
       "type": "shell",
       "inline": [
         "sudo apt-get update",
-        "sudo apt-get install python -y"
+        "sudo apt-get install -y python python3"
       ]
     },
     {
