@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - scaleft-agent
+    - awscli
+  tasks:
+    - name: Ensure packages are installed
+      apt:
+        state: present
+        name:
+          - jq
+          - nano
+          - curl
