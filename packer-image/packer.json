@@ -1,0 +1,75 @@
+{
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "instance_type": "t3.medium",
+    "ssh_username": "ubuntu",
+    "ami_name": "packer_ubuntu_bionic_builder_{{timestamp}}",
+    "associate_public_ip_address": true,
+    "ebs_optimized": true,
+    "run_tags": {
+      "Name": "Packer Builder",
+      "launched": "{{timestamp}}"
+    },
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "tags": {
+      "Name": "packer_builder_{{timestamp}}",
+      "build_time": "{{timestamp}}"
+    }
+  }],
+  "provisioners": [{
+      "type": "shell-local",
+      "command": "ansible-galaxy install -f -r requirements.yml"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install python -y"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": ["mkdir -p /home/ubuntu/distil-packer"]
+    },
+    {
+      "type": "file",
+      "source": "../",
+      "destination": "/home/ubuntu/distil-packer"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo chmod -R u+rw,g+rw /home/ubuntu/distil-packer",
+        "sudo find /home/ubuntu/distil-packer/ -type d -exec chmod u+x,g+xs {} \\;",
+        "sudo ln -s /home/ubuntu/distil-packer /etc/skel/distil-packer"
+      ]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./provision.yml"
+    },
+    {
+      "type": "shell",
+      "inline_shebang": "/bin/bash -e",
+      "inline": [
+        "until grep -q sft-admin /etc/group; do echo 'Waiting for sftd...'; sleep 0.5; done",
+        "sudo chown -R ubuntu:sft-admin /home/ubuntu/distil-packer"
+      ]
+    }
+  ]
+}

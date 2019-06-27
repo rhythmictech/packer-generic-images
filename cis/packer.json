@@ -1,0 +1,93 @@
+{
+  "builders": [
+    {
+      "name": "null",
+      "type": "null",
+      "communicator": "none"
+    },
+    {
+      "name": "xenial-cis-amazon-ebs",
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "instance_type": "t3.medium",
+      "ssh_username": "ubuntu",
+      "ami_name": "packer_ubuntu_xenial_cis_{{timestamp}}",
+      "associate_public_ip_address": true,
+      "ebs_optimized": true,
+      "run_tags": {
+        "Name": "Packer Builder",
+        "launched": "{{timestamp}}"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "099720109477"
+        ],
+        "most_recent": true
+      },
+      "tags": {
+        "Name": "packer_ubuntu_xenial_cis {{timestamp}}",
+        "build_time": "{{timestamp}}"
+      }
+    },
+    {
+      "name": "bionic-cis-amazon-ebs",
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "instance_type": "t3.medium",
+      "ssh_username": "ubuntu",
+      "ami_name": "packer_ubuntu_bionic_cis_{{timestamp}}",
+      "associate_public_ip_address": true,
+      "ebs_optimized": true,
+      "run_tags": {
+        "Name": "Packer Builder",
+        "launched": "{{timestamp}}"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "099720109477"
+        ],
+        "most_recent": true
+      },
+      "tags": {
+        "Name": "packer_ubuntu_bionic_cis {{timestamp}}",
+        "build_time": "{{timestamp}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell-local",
+      "command": "ansible-galaxy install -f -r requirements.yml",
+      "only": [
+        "null"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install python -y"
+      ]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./provision.yml"
+    }
+  ]
+}
