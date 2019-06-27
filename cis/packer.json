@@ -68,6 +68,35 @@
         "Name": "packer_ubuntu_bionic_cis {{timestamp}}",
         "build_time": "{{timestamp}}"
       }
+    },
+    {
+      "name": "amazon2-cis-amazon-ebs",
+      "type": "amazon-ebs",
+      "region": "{{user `region`}}",
+      "instance_type": "{{user `instance_type`}}",
+      "ssh_username": "ec2-user",
+      "ami_name": "{{user `ami_name`}}",
+      "associate_public_ip_address": "{{user `associate_public_ip`}}",
+      "ebs_optimized": true,
+      "run_tags": {
+        "Name": "Packer Builder",
+        "launched": "{{timestamp}}"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "amzn2-ami-hvm-2.*-x86_64-gp2",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "amazon"
+        ],
+        "most_recent": true
+      },
+      "tags": {
+        "Name": "packer_amazon_2_cis {{timestamp}}",
+        "build_time": "{{timestamp}}"
+      }
     }
   ],
   "provisioners": [
