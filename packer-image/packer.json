@@ -1,31 +1,42 @@
 {
-  "builders": [{
-    "type": "amazon-ebs",
+  "variables": {
     "region": "us-east-1",
     "instance_type": "t3.medium",
-    "ssh_username": "ubuntu",
     "ami_name": "packer_ubuntu_bionic_builder_{{timestamp}}",
-    "associate_public_ip_address": true,
-    "ebs_optimized": true,
-    "run_tags": {
-      "Name": "Packer Builder",
-      "launched": "{{timestamp}}"
-    },
-    "source_ami_filter": {
-      "filters": {
-        "virtualization-type": "hvm",
-        "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
-        "root-device-type": "ebs"
+    "associate_public_ip": "true"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "{{user `region`}}",
+      "instance_type": "{{user `instance_type`}}",
+      "ssh_username": "ubuntu",
+      "ami_name": "{{user `ami_name`}}",
+      "associate_public_ip_address": "{{user `associate_public_ip`}}",
+      "ebs_optimized": true,
+      "run_tags": {
+        "Name": "Packer Builder",
+        "launched": "{{timestamp}}"
       },
-      "owners": ["099720109477"],
-      "most_recent": true
-    },
-    "tags": {
-      "Name": "packer_builder_{{timestamp}}",
-      "build_time": "{{timestamp}}"
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "099720109477"
+        ],
+        "most_recent": true
+      },
+      "tags": {
+        "Name": "packer_builder_{{timestamp}}",
+        "build_time": "{{timestamp}}"
+      }
     }
-  }],
-  "provisioners": [{
+  ],
+  "provisioners": [
+    {
       "type": "shell-local",
       "command": "ansible-galaxy install -f -r requirements.yml"
     },
@@ -44,7 +55,9 @@
     },
     {
       "type": "shell",
-      "inline": ["mkdir -p /home/ubuntu/distil-packer"]
+      "inline": [
+        "mkdir -p /home/ubuntu/distil-packer"
+      ]
     },
     {
       "type": "file",
