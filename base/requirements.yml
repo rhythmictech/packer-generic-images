@@ -1,6 +1,6 @@
 ---
 - src: https://github.com/rhythmictech/ansible-scaleft-agent
-  version: "1.1.1"
+  version: "1.1.2"
   name: scaleft-agent
 - src: geerlingguy.repo-epel
   version: "1.2.3"
