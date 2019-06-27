@@ -11,7 +11,7 @@
       "communicator": "none"
     },
     {
-      "name": "xenial-cis-amazon-ebs",
+      "name": "xenial-amazon-ebs",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
@@ -35,12 +35,12 @@
         "most_recent": true
       },
       "tags": {
-        "Name": "packer_ubuntu_xenial_cis {{timestamp}}",
+        "Name": "packer_ubuntu_xenial {{timestamp}}",
         "build_time": "{{timestamp}}"
       }
     },
     {
-      "name": "bionic-cis-amazon-ebs",
+      "name": "bionic-amazon-ebs",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
@@ -64,12 +64,12 @@
         "most_recent": true
       },
       "tags": {
-        "Name": "packer_ubuntu_bionic_cis {{timestamp}}",
+        "Name": "packer_ubuntu_bionic {{timestamp}}",
         "build_time": "{{timestamp}}"
       }
     },
     {
-      "name": "amazon2-cis-amazon-ebs",
+      "name": "amazon2-amazon-ebs",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
@@ -93,7 +93,7 @@
         "most_recent": true
       },
       "tags": {
-        "Name": "packer_amazon_2_cis {{timestamp}}",
+        "Name": "packer_amazon_2 {{timestamp}}",
         "build_time": "{{timestamp}}"
       }
     }
@@ -119,8 +119,8 @@
         "sudo apt-get install -y python python3"
       ],
       "only": [
-        "xenial-cis-amazon-ebs",
-        "bionic-cis-amazon-ebs"
+        "xenial-amazon-ebs",
+        "bionic-amazon-ebs"
       ]
     },
     {
@@ -129,7 +129,7 @@
         "sudo yum install -y python python3 python-pip python3-pip"
       ],
       "only": [
-        "amazon2-cis-amazon-ebs"
+        "amazon2-amazon-ebs"
       ]
     },
     {
