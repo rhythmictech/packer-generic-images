@@ -6,7 +6,7 @@
     - awscli
   tasks:
     - name: Ensure packages are installed
-      apt:
+      package:
         state: present
         name:
           - jq
