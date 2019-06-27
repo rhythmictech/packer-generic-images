@@ -2,22 +2,25 @@
 - hosts: all
   become: yes
   roles:
-  - role: xenial-cis
-    vars:
-      ubuntu1604cis_ignore_remount_errors: true
-    when: ansible_distribution_version == '16.04'
-  - role: bionic-cis
-    vars:
-      ubuntu1804cis_ignore_remount_errors: true
-    when: ansible_distribution_version == '18.04'
-  - scaleft-agent
-  - awscli
+    - role: xenial-cis
+      vars:
+        ubuntu1604cis_ignore_remount_errors: true
+      when: ansible_distribution_version == '16.04'
+    - role: bionic-cis
+      vars:
+        ubuntu1804cis_ignore_remount_errors: true
+      when: ansible_distribution_version == '18.04'
+    - role: amazon2-cis
+      when:
+        - ansible_distribution == 'Amazon'
+        - ansible_distribution_major_version == '2'
+    - scaleft-agent
+    - awscli
   tasks:
-  - name: Ensure packages are installed
-    apt:
-      name:
-      - jq
-      - nano
-      - curl
-      state: present
-
+    - name: Ensure packages are installed
+      apt:
+        name:
+          - jq
+          - nano
+          - curl
+        state: present
