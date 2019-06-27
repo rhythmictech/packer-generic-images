@@ -1,6 +1,0 @@
----
-- name: awscli is installed
-  pip:
-    name:
-    - awscli
-    state: latest
