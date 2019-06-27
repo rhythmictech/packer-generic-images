@@ -2,7 +2,6 @@
   "variables": {
     "region": "us-east-1",
     "instance_type": "t3.medium",
-    "ami_name": "packer_ubuntu_bionic_builder_{{timestamp}}",
     "associate_public_ip": "true"
   },
   "builders": [
@@ -17,7 +16,7 @@
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "{{user `ami_name`}}",
+      "ami_name": "packer_ubuntu_xenial_{{timestamp}}",
       "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
@@ -46,7 +45,7 @@
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "{{user `ami_name`}}",
+      "ami_name": "packer_ubuntu_bionic_{{timestamp}}",
       "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
@@ -75,7 +74,7 @@
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ec2-user",
-      "ami_name": "{{user `ami_name`}}",
+      "ami_name": "packer_amazon_2_{{timestamp}}",
       "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
@@ -118,6 +117,19 @@
       "inline": [
         "sudo apt-get update",
         "sudo apt-get install -y python python3"
+      ],
+      "only": [
+        "xenial-cis-amazon-ebs",
+        "bionic-cis-amazon-ebs"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum install -y python python3 python-pip python3-pip"
+      ],
+      "only": [
+        "amazon2-cis-amazon-ebs"
       ]
     },
     {
