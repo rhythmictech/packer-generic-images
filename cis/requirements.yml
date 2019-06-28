@@ -6,7 +6,7 @@
   version: "1.2.2"
   name: bionic-cis
 - src: https://github.com/rhythmictech/cis-amazon-linux-2
-  version: "1.0.1"
+  version: "1.0.2"
   name: amazon2-cis
 - src: https://github.com/rhythmictech/ansible-scaleft-agent
   version: "1.1.2"

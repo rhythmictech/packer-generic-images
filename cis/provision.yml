@@ -1,6 +1,10 @@
 ---
 - hosts: all
   become: yes
+  pre_tasks:
+    - name: Get OS version
+      debug:
+        var: ansible_distribution_version
   roles:
     - role: xenial-cis
       vars:
