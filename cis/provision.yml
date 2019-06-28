@@ -1,28 +1,45 @@
 ---
 - hosts: all
-  become: yes
-  pre_tasks:
+  tasks:
+    - name: Get OS name
+      debug:
+        var: ansible_distribution
     - name: Get OS version
       debug:
         var: ansible_distribution_version
+    - name: Group by distro name
+      group_by:
+        key: ansible_distribution_{{ ansible_distribution }}
+    - name: Group by distro version
+      group_by:
+        key: ansible_distribution_version{{ ansible_distribution_version }}
+- hosts: ansible_distribution_Amazon
+  gather_facts: no
+  become: yes
+  roles:
+    - amazon2-cis
+- hosts: ansible_distribution_Ubuntu:ansible_distribution_version_16.04
+  gather_facts: no
+  become: yes
   roles:
     - role: xenial-cis
       vars:
         ubuntu1604cis_ignore_remount_errors: true
-      when: ansible_distribution_version == '16.04'
+- hosts: ansible_distribution_Ubuntu:ansible_distribution_version_18.04
+  gather_facts: no
+  become: yes
+  roles:
     - role: bionic-cis
       vars:
         ubuntu1804cis_ignore_remount_errors: true
-      when: ansible_distribution_version == '18.04'
-    - role: amazon2-cis
-      when:
-        - ansible_distribution == 'Amazon'
-        - ansible_distribution_major_version == '2'
+- hosts: all
+  become: yes
+  roles:
     - scaleft-agent
     - awscli
   tasks:
     - name: Ensure packages are installed
-      apt:
+      package:
         name:
           - jq
           - nano
