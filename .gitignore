@@ -6,3 +6,5 @@ packer_cache/
 
 # Ansible retry files
 *.retry
+
+crash.log
