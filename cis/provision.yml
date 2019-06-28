@@ -40,7 +40,6 @@
   tasks:
     - name: Ensure packages are installed
       package:
-      package:
         name:
           - jq
           - nano
