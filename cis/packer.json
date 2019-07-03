@@ -20,7 +20,7 @@
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "packer_ubuntu_xenial_{{timestamp}}",
+      "ami_name": "packer_ubuntu_xenial_cis_{{timestamp}}",
       "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
@@ -51,7 +51,7 @@
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "packer_ubuntu_bionic_{{timestamp}}",
+      "ami_name": "packer_ubuntu_bionic_cis_{{timestamp}}",
       "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
@@ -82,7 +82,7 @@
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ec2-user",
-      "ami_name": "packer_amazon_2_{{timestamp}}",
+      "ami_name": "packer_amazon_2_cis_{{timestamp}}",
       "associate_public_ip_address": "{{user `associate_public_ip`}}",
       "ebs_optimized": true,
       "run_tags": {
