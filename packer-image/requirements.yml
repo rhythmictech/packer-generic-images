@@ -1,4 +1,4 @@
-- src: geerlingguy.ansible-role-packer
+- src: geerlingguy.packer
   version: "1.0.1"
   name: packer
 
