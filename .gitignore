@@ -8,3 +8,4 @@ packer_cache/
 *.retry
 
 crash.log
+.vscode
