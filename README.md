@@ -2,7 +2,8 @@
 Generic Packer images starting with AWS
 
 ## About 
-Generic CIS-compliant base AMIs in three delicious flavours:
+Generic [CIS-compliant](https://www.cisecurity.org/cis-benchmarks/) 
+base AMIs in three delicious flavours:
 - Ubuntu Bionic Beaver (v18)
 - Ubuntu Xenial (v16)
 - Amazon Linux 2 
