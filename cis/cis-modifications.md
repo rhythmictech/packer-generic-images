@@ -88,12 +88,14 @@ The CIS recommended strict umask rule has very little advantage for most servers
 We want to audit these rules from Nessus, not set them during AMI creation
 - `section-6`
 
-#### ?
+#### Disable TCP Wrappers 
 > 3.3 TCP Wrappers  
 3.3.2 Ensure /etc/hosts.allow is configured (Not Scored)  
 3.3.3 Ensure /etc/hosts.deny is configured (Not Scored)  
 3.3.4 Ensure permissions on /etc/hosts.allow are configured (Scored)  
 3.3.5 Ensure permissions on /etc/hosts.deny are configured (Scored)
+
+Those rules block all traffic by default at the hostsfile level. It’s an extra layer of firewalling that’s difficult to manage and takes away our ability to rely on security groups (which is where we will be managing traffic)
 
 -  `3.3.2`
 -  `3.3.3`
