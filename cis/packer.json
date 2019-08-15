@@ -2,9 +2,9 @@
   "variables": {
     "region": "us-east-1",
     "instance_type": "t3.medium",
-    "associate_public_ip": "true",
-    "vpc": "",
-    "subnet": ""
+    "associate_public_ip": "false",
+    "vpc": "vpc-1f48027a",
+    "subnet": "subnet-02834974"
   },
   "builders": [
     {
@@ -104,6 +104,14 @@
         "Name": "packer_amazon_2_cis {{timestamp}}",
         "build_time": "{{timestamp}}"
       }
+    },
+    {
+      "name" :"amazon2-cis-amazon-vagrant",
+      "type": "vagrant",
+      "source_path": "bento/amazonlinux-2",
+      "provider": "virtualbox",
+      "add_force": true,
+      "communicator": "ssh"
     }
   ],
   "provisioners": [
@@ -137,7 +145,8 @@
         "sudo yum install -y python python3 python-pip python3-pip"
       ],
       "only": [
-        "amazon2-cis-amazon-ebs"
+        "amazon2-cis-amazon-ebs",
+        "amazon2-cis-amazon-vagrant"
       ]
     },
     {
